@@ -1,0 +1,33 @@
+{
+  "name": "enerwhizz-marina-chatbot",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "sync:knowledge": "node scripts/syncKnowledge.js",
+    "create:vector-store": "node scripts/createVectorStore.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@heygen/liveavatar-web-sdk": "^0.0.19",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^8.6.1",
+    "googleapis": "^144.0.0",
+    "helmet": "^8.0.0",
+    "multer": "^2.3.0",
+    "node-cron": "^3.0.3",
+    "openai": "^4.77.0",
+    "pg": "^8.13.1",
+    "pino": "^9.6.0",
+    "pino-http": "^10.4.0",
+    "ua-parser-js": "^2.0.10",
+    "zod": "^3.24.1"
+  }
+}

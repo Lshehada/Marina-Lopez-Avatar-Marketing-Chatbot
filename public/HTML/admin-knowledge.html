@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Marina Knowledge Admin</title>
+
+  <link rel="stylesheet" href="/css/admin-knowledge.css">
+</head>
+
+<body>
+
+  <main class="page">
+
+    <header class="header">
+      <div>
+        <p class="eyebrow">
+          ENERWHIZZ · MARINA
+        </p>
+
+        <h1>
+          Knowledge Management
+        </h1>
+
+        <p class="subtitle">
+          Upload, version, archive and manage
+          Marina's knowledge documents.
+        </p>
+      </div>
+
+      <button id="sync-button" class="secondary-button" type="button">
+        Sync now
+      </button>
+    </header>
+
+
+    <!-- ==================================================
+         ADMIN ACCESS
+         ================================================== -->
+
+    <section class="card" id="auth-card">
+      <h2>
+        Administrator access
+      </h2>
+
+      <div class="auth-row">
+
+        <input id="admin-key" type="password" placeholder="Administrator key" autocomplete="current-password">
+
+        <button id="connect-button" type="button">
+          Connect
+        </button>
+
+      </div>
+    </section>
+
+
+    <!-- ==================================================
+         STATUS MESSAGE
+         ================================================== -->
+
+    <div id="status-message" class="status" hidden></div>
+
+
+    <!-- ==================================================
+         DASHBOARD CONTENT
+         ================================================== -->
+
+    <section id="dashboard" hidden>
+
+      <div class="stats">
+
+        <!--
+    ACTIVE FILTER
+  -->
+        <button id="active-filter" class="stat-card stat-filter active-filter" type="button" data-filter="active">
+          <span>
+            Active documents
+          </span>
+
+          <strong id="active-count">
+            0
+          </strong>
+        </button>
+
+
+        <!--
+    DELETED FILTER
+  -->
+        <button id="old-versions-filter" class="stat-card stat-filter" type="button" data-filter="old">
+          <span>
+            Old Versions
+          </span>
+
+          <strong id="old-versions-count">
+            0
+          </strong>
+        </button>
+
+
+        <button id="all-filter" class="stat-card stat-filter" type="button" data-filter="all">
+          <span>
+            All versions
+          </span>
+
+          <strong id="version-count">
+            0
+          </strong>
+        </button>
+
+      </div>
+
+
+      <!-- ==================================================
+           UPLOAD
+           ================================================== -->
+
+      <section class="card">
+
+        <h2>
+          Upload PDF
+        </h2>
+
+        <p class="hint">
+          Same filename + changed content creates a new
+          version. Identical content under another name
+          will be rejected.
+        </p>
+
+
+        <form id="upload-form">
+
+          <div id="drop-zone" class="drop-zone">
+
+            <input id="file-input" type="file" accept="application/pdf,.pdf" hidden>
+
+            <strong>
+              Drop a PDF here
+            </strong>
+
+            <span>
+              or click to select a document
+            </span>
+
+            <span id="selected-file" class="selected-file"></span>
+
+          </div>
+
+
+          <button id="upload-button" type="submit" disabled>
+            Upload document
+          </button>
+
+        </form>
+
+      </section>
+
+
+      <!-- ==================================================
+           DOCUMENT TABLE
+           ================================================== -->
+
+      <section class="card">
+
+        <div class="section-header">
+
+          <div>
+            <h2>
+              Knowledge documents
+            </h2>
+
+            <p class="hint">
+              Only active versions are searchable by Marina.
+            </p>
+          </div>
+
+
+          <button id="refresh-button" class="secondary-button" type="button">
+            Refresh
+          </button>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Document</th>
+                <th>Version</th>
+                <th>Status</th>
+                <th>Drive</th>
+                <th>OpenAI</th>
+                <th>Last synced</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+
+            <tbody id="documents-body">
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </section>
+
+    </section>
+
+  </main>
+
+
+  <script src="/js/admin-knowledge.js"></script>
+
+</body>
+
+</html>

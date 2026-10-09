@@ -1,0 +1,1336 @@
+/*
+ * =========================================================
+ * MARINA FLOATING CHATBOT
+ * ENERWHIZZ THEME
+ * =========================================================
+ */
+
+:root {
+  --green:
+    #42c94f;
+
+  --green-dark:
+    #32ae40;
+
+  --green-light:
+    #ddf8df;
+
+  --purple:
+    #241033;
+
+  --purple-light:
+    #aa73c4;
+
+  --blue-light:
+    #dff3fb;
+
+  --mint-light:
+    #dcf9e5;
+
+  --white:
+    #ffffff;
+
+  --background:
+    #f8f9f6;
+
+  --text:
+    #241033;
+
+  --text-secondary:
+    #72727b;
+
+  --border:
+    #e8e8e3;
+
+  --danger:
+    #bd4149;
+
+  --danger-light:
+    #fde7e8;
+
+  --shadow:
+    0 18px 55px
+    rgba(
+      36,
+      16,
+      51,
+      0.19
+    );
+}
+
+
+/*
+ * =========================================================
+ * NORMAL PAGE
+ * =========================================================
+ *
+ * Marina does NOT control the page layout.
+ */
+
+* {
+  box-sizing:
+    border-box;
+}
+
+
+html,
+body {
+  margin: 0;
+
+  min-height:
+    100%;
+}
+
+
+body {
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  color:
+    var(--text);
+
+  background:
+    var(--white);
+}
+
+
+/*
+ * Only for your local test page.
+ *
+ * Remove this block when embedding Marina
+ * into the real website if you do not need it.
+ */
+
+.demo-page {
+  min-height:
+    100vh;
+
+  padding:
+    80px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--blue-light),
+      var(--mint-light)
+    );
+}
+
+
+.demo-page h1 {
+  margin-top:
+    0;
+
+  color:
+    var(--purple);
+}
+
+
+/*
+ * =========================================================
+ * FLOATING WIDGET WRAPPER
+ * =========================================================
+ */
+
+#marina-widget {
+  position:
+    fixed;
+
+  right:
+    24px;
+
+  bottom:
+    24px;
+
+  z-index:
+    999999;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+}
+
+
+/*
+ * =========================================================
+ * FLOATING MARINA ICON
+ * =========================================================
+ */
+
+#marina-launcher {
+  width:
+    64px;
+
+  height:
+    64px;
+
+  padding:
+    0;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  border:
+    none;
+
+  border-radius:
+    50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #55d859,
+      var(--green-dark)
+    );
+
+  color:
+    var(--white);
+
+  box-shadow:
+    0 10px 30px
+    rgba(
+      66,
+      201,
+      79,
+      0.35
+    );
+
+  cursor:
+    pointer;
+
+  transition:
+    transform
+    0.2s ease,
+    box-shadow
+    0.2s ease;
+}
+
+
+#marina-launcher:hover {
+  transform:
+    translateY(-3px)
+    scale(1.04);
+
+  box-shadow:
+    0 15px 35px
+    rgba(
+      66,
+      201,
+      79,
+      0.45
+    );
+}
+
+/* =========================================================
+   LIVEAVATAR VOICE MODE
+   ========================================================= */
+
+.avatar-chat-button,
+.stop-avatar-button {
+  border: none;
+  cursor: pointer;
+  font: inherit;
+}
+
+.avatar-chat-button {
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--purple);
+  font-size: 17px;
+}
+
+.avatar-chat-button:disabled,
+.stop-avatar-button:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.avatar-chat-container {
+  padding: 12px;
+  background: #15101b;
+}
+
+.avatar-chat-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.avatar-live-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #ffffff;
+  font-size: 13px;
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+.stop-avatar-button {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--purple);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.liveavatar-video {
+  display: block;
+  width: 100%;
+  max-height: 330px;
+  border-radius: 12px;
+  background: #08060a;
+  object-fit: cover;
+}
+
+.avatar-caption {
+  margin: 10px 0 0;
+  color: #ded7e5;
+  font-size: 12px;
+  text-align: center;
+}
+
+
+#marina-launcher[hidden] {
+  display:
+    none;
+}
+
+
+.launcher-icon {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  width:
+    100%;
+
+  height:
+    100%;
+
+  color:
+    var(--white);
+
+  font-size:
+    25px;
+
+  font-weight:
+    800;
+}
+
+
+/*
+ * =========================================================
+ * SINGLE CHAT CONTAINER
+ * =========================================================
+ */
+
+#marina-chat-panel {
+  position:
+    absolute;
+
+  right:
+    0;
+
+  bottom:
+    0;
+
+  width:
+    440px;
+
+  max-width: calc(100vw - 24px);
+  max-height: calc(100dvh - 24px);
+
+  height:
+    610px;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  background:
+    var(--white);
+
+  border:
+    1px solid
+    rgba(
+      36,
+      16,
+      51,
+      0.08
+    );
+
+  border-radius:
+    22px;
+
+  overflow:
+    hidden;
+
+  box-shadow:
+    var(--shadow);
+
+  animation:
+    marina-open
+    0.22s ease;
+}
+
+
+#marina-chat-panel[hidden] {
+  display:
+    none;
+}
+
+
+@keyframes marina-open {
+  from {
+    opacity:
+      0;
+
+    transform:
+      translateY(15px)
+      scale(0.97);
+  }
+
+  to {
+    opacity:
+      1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+
+/*
+ * =========================================================
+ * HEADER
+ * =========================================================
+ */
+
+#marina-chat-header {
+  flex:
+    0 0 auto;
+
+  min-height:
+    68px;
+
+  padding:
+    12px 14px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    space-between;
+
+  background:
+    linear-gradient(
+      110deg,
+      var(--blue-light),
+      var(--mint-light)
+    );
+
+  border-bottom:
+    1px solid
+    rgba(
+      36,
+      16,
+      51,
+      0.06
+    );
+}
+
+
+.marina-header-left {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    11px;
+
+  min-width:
+    0;
+}
+
+
+.marina-avatar {
+  flex:
+    0 0 auto;
+
+  width:
+    42px;
+
+  height:
+    42px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  border-radius:
+    50%;
+
+  background:
+    var(--green);
+
+  color:
+    var(--white);
+
+  font-size:
+    18px;
+
+  font-weight:
+    800;
+
+  box-shadow:
+    0 4px 12px
+    rgba(
+      66,
+      201,
+      79,
+      0.25
+    );
+}
+
+
+.marina-info {
+  min-width:
+    0;
+}
+
+
+.marina-info strong {
+  display:
+    block;
+
+  color:
+    var(--purple);
+
+  font-size:
+    16px;
+
+  font-weight:
+    800;
+}
+
+
+.marina-info span {
+  display:
+    block;
+
+  margin-top:
+    2px;
+
+  color:
+    var(--text-secondary);
+
+  font-size:
+    11px;
+}
+
+
+/*
+ * =========================================================
+ * MINIMIZE + CLOSE
+ * =========================================================
+ */
+
+.marina-header-actions {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    5px;
+}
+
+
+.marina-header-actions button {
+  width:
+    32px;
+
+  height:
+    32px;
+
+  padding:
+    0;
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  border:
+    0;
+
+  border-radius:
+    8px;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.60
+    );
+
+  color:
+    var(--purple);
+
+  font-size:
+    21px;
+
+  font-weight:
+    500;
+
+  line-height:
+    1;
+
+  cursor:
+    pointer;
+
+  transition:
+    background
+    0.15s ease,
+    transform
+    0.15s ease;
+}
+
+
+.marina-header-actions button:hover {
+  background:
+    var(--white);
+
+  transform:
+    scale(1.05);
+}
+
+
+#marina-close:hover {
+  color:
+    var(--danger);
+
+  background:
+    var(--danger-light);
+}
+
+
+/*
+ * =========================================================
+ * STATUS BAR
+ * =========================================================
+ */
+
+#status {
+  flex:
+    0 0 auto;
+
+  min-height:
+    30px;
+
+  padding:
+    7px 15px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    7px;
+
+  background:
+    #fafbf8;
+
+  color:
+    var(--text-secondary);
+
+  border-bottom:
+    1px solid
+    var(--border);
+
+  font-size:
+    11px;
+}
+
+
+.status-dot {
+  width:
+    7px;
+
+  height:
+    7px;
+
+  flex:
+    0 0 auto;
+
+  border-radius:
+    50%;
+
+  background:
+    var(--green);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(
+      66,
+      201,
+      79,
+      0.13
+    );
+}
+
+
+/*
+ * =========================================================
+ * ONE CONVERSATION CONTAINER
+ * =========================================================
+ *
+ * Marina messages AND visitor messages live here.
+ *
+ * This is not two separate panels.
+ */
+
+#messages {
+  flex:
+    1 1 auto;
+
+  min-height:
+    0;
+
+  padding:
+    16px;
+
+  overflow-y:
+    auto;
+
+  background:
+    #f7f9f8;
+
+  overscroll-behavior: contain;
+
+  scroll-behavior:
+    smooth;
+}
+
+
+/*
+ * =========================================================
+ * MESSAGE ROWS
+ * =========================================================
+ */
+
+.message {
+  max-width:
+    92%;
+
+  width:
+    fit-content;
+
+  margin:
+    0 0 14px;
+
+  padding:
+    12px 15px;
+
+  border-radius:
+    14px;
+
+  font-size:
+    14px;
+
+  line-height:
+    1.65;
+
+  text-align: justify;
+  text-align-last: start;
+  hyphens: auto;
+
+  white-space:
+    pre-wrap;
+
+  overflow-wrap:
+    anywhere;
+}
+
+
+/*
+ * =========================================================
+ * MARINA
+ * =========================================================
+ */
+
+.message.assistant {
+  margin-right:
+    auto;
+
+  margin-left:
+    0;
+
+  background:
+    linear-gradient(135deg, #eef9fd, #eafbed);
+
+  box-shadow: 0 2px 6px rgba(36, 16, 51, 0.04);
+
+  color:
+    var(--purple);
+
+  border:
+    1px solid
+    rgba(
+      66,
+      201,
+      79,
+      0.10
+    );
+
+  border-bottom-left-radius:
+    4px;
+}
+
+
+/*
+ * =========================================================
+ * VISITOR
+ * =========================================================
+ */
+
+.message.user,
+.message.visitor {
+  max-width: 85%;
+  margin-left:
+    auto;
+
+  margin-right:
+    0;
+
+  background:
+    #e5f0fa;
+
+  color:
+    #23435d;
+
+  border: 1px solid #cfdfed;
+
+  border-bottom-right-radius:
+    4px;
+}
+
+
+/*
+ * They are visually different messages,
+ * but BOTH remain inside #messages.
+ */
+
+
+/*
+ * =========================================================
+ * ERROR MESSAGE
+ * =========================================================
+ */
+
+.message.error {
+  max-width:
+    100%;
+
+  margin-left:
+    0;
+
+  background:
+    var(--danger-light);
+
+  color:
+    var(--danger);
+
+  border:
+    1px solid
+    rgba(
+      189,
+      65,
+      73,
+      0.15
+    );
+}
+
+
+/*
+ * =========================================================
+ * INPUT SECTION
+ * =========================================================
+ *
+ * Still part of the SAME chatbot container.
+ */
+
+#chat-form {
+  flex:
+    0 0 auto;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    8px;
+
+  padding:
+    12px;
+
+  background:
+    var(--white);
+
+  border-top:
+    1px solid
+    var(--border);
+}
+
+
+#chat-form[hidden] {
+  display:
+    none;
+}
+
+
+#message-input {
+  flex:
+    1;
+
+  min-width:
+    0;
+
+  height:
+    44px;
+
+  padding:
+    0 13px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    12px;
+
+  outline:
+    none;
+
+  background:
+    #fafbf8;
+
+  color:
+    var(--purple);
+
+  font-size:
+    14px;
+
+  transition:
+    border-color
+    0.15s ease,
+    box-shadow
+    0.15s ease;
+}
+
+
+#message-input::placeholder {
+  color:
+    #9999a0;
+}
+
+
+#message-input:focus {
+  border-color:
+    var(--green);
+
+  background:
+    var(--white);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(
+      66,
+      201,
+      79,
+      0.11
+    );
+}
+
+
+/*
+ * =========================================================
+ * SEND BUTTON
+ * =========================================================
+ */
+
+#resume-conversation {
+  margin: 12px 16px;
+}
+
+#resume-conversation[hidden] {
+  display: none;
+}
+
+#send-button,
+#resume-conversation {
+  height:
+    44px;
+
+  flex:
+    0 0 auto;
+
+  padding:
+    0 17px;
+
+  border:
+    none;
+
+  border-radius:
+    12px;
+
+  background:
+    var(--green);
+
+  color:
+    var(--white);
+
+  font-size:
+    13px;
+
+  font-weight:
+    800;
+
+  cursor:
+    pointer;
+
+  transition:
+    background
+    0.15s ease,
+    transform
+    0.15s ease;
+}
+
+
+#send-button:hover:not(:disabled),
+#resume-conversation:hover:not(:disabled) {
+  background:
+    var(--green-dark);
+
+  transform:
+    translateY(-1px);
+}
+
+
+#send-button:disabled,
+#resume-conversation:disabled {
+  opacity:
+    0.42;
+
+  cursor:
+    not-allowed;
+
+  transform:
+    none;
+}
+
+
+/*
+ * =========================================================
+ * TRIAL REGISTRATION LINK
+ * =========================================================
+ */
+
+.trial-inline-link {
+  display:
+    inline-block;
+
+  margin:
+    0 2px;
+
+  padding:
+    1px 4px;
+
+  border-radius:
+    5px;
+
+  color:
+    var(--green-dark);
+
+  background:
+    var(--green-light);
+
+  font-weight:
+    800;
+
+  text-decoration:
+    underline;
+
+  text-decoration-thickness:
+    2px;
+
+  text-underline-offset:
+    3px;
+
+  cursor:
+    pointer;
+
+  animation:
+    trial-link-pop
+    1.7s ease-in-out
+    infinite;
+}
+
+
+@keyframes trial-link-pop {
+  0%,
+  100% {
+    transform:
+      scale(1);
+  }
+
+  50% {
+    transform:
+      scale(1.06);
+  }
+}
+
+
+/*
+ * =========================================================
+ * MESSAGE SCROLLBAR
+ * =========================================================
+ */
+
+#messages::-webkit-scrollbar {
+  width:
+    7px;
+}
+
+
+#messages::-webkit-scrollbar-track {
+  background:
+    transparent;
+}
+
+
+#messages::-webkit-scrollbar-thumb {
+  background:
+    #dadbd6;
+
+  border-radius:
+    999px;
+}
+
+
+#messages::-webkit-scrollbar-thumb:hover {
+  background:
+    #c1c2bd;
+}
+
+
+/*
+ * =========================================================
+ * MOBILE
+ * =========================================================
+ */
+
+@media (
+  max-width: 520px
+) {
+
+  #marina-widget {
+    right:
+      12px;
+
+    bottom:
+      12px;
+  }
+
+
+  #marina-launcher {
+    width:
+      58px;
+
+    height:
+      58px;
+  }
+
+
+  #marina-chat-panel {
+    position:
+      fixed;
+
+    left:
+      10px;
+
+    right:
+      10px;
+
+    bottom:
+      10px;
+
+    width:
+      auto;
+
+    height:
+      min(
+        650px,
+        calc(
+          100vh - 20px
+        )
+      );
+
+    border-radius:
+      18px;
+  }
+
+
+  .message {
+    max-width:
+      94%;
+
+    font-size:
+      14px;
+  }
+
+
+  .demo-page {
+    padding:
+      30px 20px;
+  }
+}
+
+/* Compact avatar mode replaces the text panel. */
+#marina-chat-panel.avatar-mode {
+  width: 350px;
+  height: auto;
+  border-radius: 20px;
+  background: #10251d;
+  overflow-y: auto;
+}
+#marina-chat-panel.avatar-mode > :not(#avatar-chat-container) { display: none; }
+#avatar-chat-container { padding: 0; background: #10251d; }
+#avatar-chat-container[hidden] { display: none; }
+.avatar-video-stage { position: relative; aspect-ratio: 4 / 3; isolation: isolate; }
+.avatar-video-stage::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,0,0,.35), transparent 35%, transparent 65%, rgba(0,0,0,.55));
+}
+.avatar-video-stage .liveavatar-video {
+  width: 100%; height: 100%; max-height: none; border-radius: 0; object-fit: cover;
+}
+.avatar-identity { position: absolute; top: 16px; left: 16px; z-index: 1; color: white; display: grid; gap: 3px; }
+.avatar-identity strong { font-size: 18px; }
+.avatar-identity span { font-size: 11px; opacity: .85; }
+.avatar-hover-actions {
+  position: absolute; top: 12px; right: 12px; z-index: 2; display: flex; gap: 6px;
+  opacity: 0; pointer-events: none; transition: opacity .18s;
+}
+.avatar-video-stage:hover .avatar-hover-actions,
+.avatar-video-stage:focus-within .avatar-hover-actions { opacity: 1; pointer-events: auto; }
+.avatar-hover-actions button {
+  min-height: 38px; min-width: 38px; border: 1px solid #ffffff45; border-radius: 10px;
+  background: #10251dd9; color: white; cursor: pointer; padding: 8px 12px; font: inherit; font-size: 12px;
+}
+#close-avatar-chat { font-size: 23px; line-height: 1; }
+.avatar-video-stage .avatar-live-status {
+  position: absolute; bottom: 14px; left: 14px; right: 14px; z-index: 1;
+  width: fit-content; padding: 8px 12px; border-radius: 30px; background: #10251ddd;
+}
+#avatar-question-form { padding: 13px; background: white; }
+#avatar-question-form label { display: block; color: #53675e; font-size: 12px; line-height: 1.5; margin-bottom: 9px; }
+.avatar-composer { display: flex; align-items: center; gap: 8px; }
+#avatar-question-input {
+  flex: 1; min-width: 0; border: 1px solid #dce7df; background: #f7faf8;
+  border-radius: 10px; padding: 11px 10px; color: #173d2a; font: inherit; font-size: 14px;
+}
+.avatar-composer button { flex-shrink: 0; border: 0; border-radius: 10px; min-height: 42px; cursor: pointer; font: inherit; }
+#avatar-mic-toggle { padding: 0 9px; background: #eafbed; color: #235b35; font-size: 11px; }
+#avatar-mic-toggle[aria-pressed="true"] { background: #edf0f2; color: #52616c; }
+#avatar-question-send { width: 42px; background: #287c42; color: white; font-size: 23px; }
+.avatar-composer :disabled { opacity: .5; cursor: wait; }
+#avatar-chat-container :focus-visible { outline: 3px solid #42c94f; outline-offset: 2px; }
+@media (hover: none), (pointer: coarse) {
+  .avatar-hover-actions { opacity: 1; pointer-events: auto; }
+}
+@media (max-width: 520px) {
+  #marina-chat-panel.avatar-mode { width: min(350px, calc(100vw - 20px)); left: auto; }
+  .avatar-identity span { max-width: 120px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .avatar-hover-actions { transition: none; }
+}
+
+/* Small icon controls leave more room for the question. */
+#avatar-question-form { padding: 10px; }
+.avatar-composer { gap: 6px; }
+.avatar-composer button { min-height: 32px; }
+#avatar-mic-toggle, #avatar-question-send {
+  width: 32px; height: 32px; padding: 0; border-radius: 9px;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+#avatar-question-send { font-size: 20px; }
+#avatar-mic-toggle { background: #edf7f0; }
+#avatar-mic-toggle svg, #stop-avatar-chat svg, #avatar-question-send svg {
+  width: 18px; height: 18px; fill: none; stroke: currentColor;
+  stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+}
+#avatar-mic-toggle .mic-muted-slash { display: none; }
+#avatar-mic-toggle[aria-pressed="true"] .mic-muted-slash { display: block; }
+#stop-avatar-chat { display: inline-flex; align-items: center; justify-content: center; padding: 8px; }
+#avatar-question-input {
+  resize: none; line-height: 1.45; font-family: inherit; font-size: 12px;
+  padding: 8px; height: 52px; overflow-y: auto;
+}
+#avatar-question-input::placeholder { color: #6a7a71; opacity: 1; }
+
+/* Single-line question field with matching compact controls. */
+#avatar-question-input {
+  height: 34px; padding: 0 7px; font-size: 12px; line-height: normal;
+}
+#avatar-question-input::placeholder { font-size: 11px; letter-spacing: -.1px; }
+#avatar-mic-toggle, #avatar-question-send { height: 34px; width: 30px; min-height: 34px; }

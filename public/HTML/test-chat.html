@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <title>EnerWhizz</title>
+
+  <link
+    rel="stylesheet"
+    href="/css/test-chat.css"
+  >
+</head>
+
+<body>
+
+  <!--
+    ========================================================
+    YOUR NORMAL WEBSITE CONTENT GOES HERE
+    ========================================================
+
+    This is only placeholder content for local testing.
+    When you add Marina to the real EnerWhizz website,
+    keep the normal website and paste only the
+    #marina-widget section near </body>.
+  -->
+
+  <main class="demo-page">
+
+    <h1>
+      EnerWhizz Website
+    </h1>
+
+    <p>
+      This represents your normal website.
+      Marina appears as a floating assistant in the
+      bottom-right corner.
+    </p>
+
+  </main>
+
+
+  <!-- =====================================================
+       MARINA FLOATING CHATBOT
+       ===================================================== -->
+
+  <div id="marina-widget">
+
+    <!--
+      Floating button visible when chat is closed/minimized.
+    -->
+    <button
+      id="marina-launcher"
+      type="button"
+      aria-label="Open Marina"
+      title="Chat with Marina"
+    >
+
+      <span class="launcher-icon">
+        M
+      </span>
+
+    </button>
+
+
+    <!--
+      ONE SINGLE CHAT CONTAINER.
+
+      Header
+      + status
+      + conversation
+      + input
+
+      are all inside this panel.
+    -->
+    <section
+      id="marina-chat-panel"
+      hidden
+    >
+
+      <!-- ================================================
+           HEADER
+           ================================================ -->
+
+      <header id="marina-chat-header">
+
+        <div class="marina-header-left">
+
+          <div class="marina-avatar">
+            M
+          </div>
+
+          <div class="marina-info">
+
+            <strong>
+              Marina
+            </strong>
+
+            <span>
+              EnerWhizz AI Assistant
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="marina-header-actions">
+
+          <button
+            id="start-avatar-chat"
+            class="avatar-chat-button"
+            type="button"
+            aria-label="Start voice chat with Marina"
+            title="Talk with Marina"
+          >
+            <span aria-hidden="true">🎥</span>
+          </button>
+
+          <!-- Minimize -->
+          <button
+            id="marina-minimize"
+            type="button"
+            aria-label="Hide Marina without ending the conversation"
+            title="Hide conversation"
+          >
+            &minus;
+          </button>
+
+
+          <!-- Close -->
+          <button
+            id="marina-close"
+            type="button"
+            aria-label="End conversation with Marina"
+            title="End conversation"
+          >
+            &times;
+          </button>
+
+        </div>
+
+      </header>
+
+      <section
+        id="avatar-chat-container"
+        class="avatar-chat-container"
+        hidden
+        aria-label="Live voice conversation with Marina"
+      >
+        <div class="avatar-video-stage">
+          <video id="liveavatar-video" class="liveavatar-video" autoplay playsinline></video>
+          <div class="avatar-identity"><strong>Marina</strong><span>EnerWhizz AI assistant</span></div>
+          <div class="avatar-hover-actions">
+            <button id="stop-avatar-chat" type="button" title="Return to text chat" aria-label="Return to text chat">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-6 4V6a2 2 0 0 1 2-2Z"/><path d="M7 9h10M7 13h7"/></svg>
+            </button>
+            <button id="close-avatar-chat" type="button" title="End conversation" aria-label="End conversation">&times;</button>
+          </div>
+          <div id="avatar-live-status" class="avatar-live-status" role="status" aria-live="polite">
+            <span class="live-dot" aria-hidden="true"></span>
+            <span id="avatar-status-text">Connecting to Marina...</span>
+          </div>
+        </div>
+        <form id="avatar-question-form">
+          <div class="avatar-composer">
+            <button id="avatar-mic-toggle" type="button" aria-label="Mute microphone" aria-pressed="false" title="Mute microphone" disabled>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8"/><path class="mic-muted-slash" d="m3 3 18 18"/></svg>
+            </button>
+            <input id="avatar-question-input" type="text" placeholder="Type your Question if you don't wish to speak" aria-label="Type your question" autocomplete="off" required disabled>
+            <button id="avatar-question-send" type="submit" aria-label="Send question" title="Send question" disabled>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 3-6 18-4-8-8-4 18-6Z"/><path d="m11 13 10-10"/></svg>
+            </button>
+          </div>
+        </form>
+      </section>
+
+
+      <!-- ================================================
+           STATUS
+           ================================================ -->
+
+      <div id="status">
+
+        <span class="status-dot"></span>
+
+        <span id="status-text">
+          Starting session...
+        </span>
+
+      </div>
+
+
+      <!-- ================================================
+           ONE CONVERSATION AREA
+           ================================================
+
+           Both Marina AND visitor messages are appended
+           to this exact same container by test-chat.js.
+      -->
+
+      <div id="messages"></div>
+
+      <button id="resume-conversation" type="button" hidden>
+        Go back to conversation
+      </button>
+
+
+      <!-- ================================================
+           INPUT
+           ================================================ -->
+
+      <form id="chat-form">
+
+        <input
+          id="message-input"
+          type="text"
+          placeholder="Write a message..."
+          autocomplete="off"
+          required
+        >
+
+        <button
+          id="send-button"
+          type="submit"
+          disabled
+          aria-label="Send message"
+        >
+          Send
+        </button>
+
+      </form>
+
+    </section>
+
+  </div>
+
+
+  <script type="module" src="/js/test-chat.js"></script>
+
+</body>
+
+</html>

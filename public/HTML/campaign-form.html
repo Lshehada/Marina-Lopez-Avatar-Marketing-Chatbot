@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Campaign</title>
+  <link rel="stylesheet" href="/css/campaign-form.css">
+</head>
+
+<body>
+  <main class="page-shell">
+    <form class="campaign-form" action="#" method="post" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="campaign-title">Campaign Title</label>
+        <input id="campaign-title" name="campaignTitle" type="text" placeholder="Choose a distinctive title" required>
+      </div>
+
+      <div class="form-group">
+        <label for="country">Country</label>
+        <div class="select-wrapper">
+          <select id="country" name="country" required>
+            <option value="" selected disabled>Select country</option>
+            <option value="be">Belgium</option>
+            <option value="de">Germany</option>
+            <option value="it">Italy</option>
+            <option value="es">Spain</option>
+            <option value="fr">France</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="quiz">Quiz</label>
+        <div class="select-wrapper">
+          <select id="quiz" name="quiz" required>
+            <option value="" selected disabled>Select quiz</option>
+            <option value="energy-efficiency">Energy Efficiency</option>
+            <option value="renewable-energy">Renewable Energy</option>
+          </select>
+        </div>
+      </div>
+
+      <fieldset class="form-group source-group">
+        <legend>Source material</legend>
+        <div class="source-options">
+          <label class="source-option">
+            <input type="radio" name="sourceType" value="upload" checked>
+            <span>Upload PDF</span>
+          </label>
+          <label class="source-option">
+            <input type="radio" name="sourceType" value="url">
+            <span>Use URL</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <div id="upload-source" class="form-group source-input">
+        <label for="source-file">Source file</label>
+        <label class="file-picker" for="source-file">
+          <span class="file-button">Choose file</span>
+          <span id="file-name" class="file-name">No file chosen</span>
+        </label>
+        <input id="source-file" name="sourceFile" type="file" accept="application/pdf,.pdf" required>
+        <p class="helper-text">Upload a PDF with text-based content (e.g. study, report, article), and we’ll turn it
+          into quiz questions.</p>
+      </div>
+
+      <div id="url-source" class="form-group source-input" hidden>
+        <label for="source-url">Source URL</label>
+        <input id="source-url" name="sourceUrl" type="url" placeholder="https://example.com/article">
+        <p class="helper-text">Enter the URL of the article, report, or page you want to use.</p>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input id="email" name="email" type="email" placeholder="you@example.com" required>
+      </div>
+
+      <label class="terms-row">
+        <input type="checkbox" name="terms" required>
+        <span>I agree to the terms and conditions</span>
+      </label>
+
+      <button class="submit-button" type="submit">
+        <span>Create Campaign</span>
+        <span class="button-arrow" aria-hidden="true">›</span>
+      </button>
+    </form>
+  </main>
+
+  <script>
+    const sourceRadios = document.querySelectorAll('input[name="sourceType"]');
+    const uploadSource = document.querySelector('#upload-source');
+    const urlSource = document.querySelector('#url-source');
+    const fileInput = document.querySelector('#source-file');
+    const urlInput = document.querySelector('#source-url');
+    const fileName = document.querySelector('#file-name');
+    const form = document.querySelector('.campaign-form');
+    const submitButton = document.querySelector('.submit-button');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const params = new URLSearchParams(window.location.search);
+      const trialRegistrationId = params.get('trial_registration_id');
+
+      if (!trialRegistrationId) {
+        alert('This trial registration link is invalid or incomplete.');
+        return;
+      }
+
+      submitButton.disabled = true;
+
+      try {
+        // First create the campaign/upload the file here.
+        // Only mark the trial submitted after that operation succeeds.
+
+        const response = await fetch('/api/trial/submitted', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            trialRegistrationId
+          })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.error || 'Registration failed');
+        }
+
+        alert('Your trial registration was submitted successfully.');
+        form.reset();
+      } catch (error) {
+        alert(error.message);
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+    sourceRadios.forEach((radio) => {
+      radio.addEventListener('change', () => {
+        const uploadSelected = radio.value === 'upload' && radio.checked;
+        uploadSource.hidden = !uploadSelected;
+        urlSource.hidden = uploadSelected;
+        fileInput.required = uploadSelected;
+        urlInput.required = !uploadSelected;
+      });
+    });
+
+    fileInput.addEventListener('change', () => {
+      fileName.textContent = fileInput.files[0]?.name || 'No file chosen';
+    });
+  </script>
+</body>
+
+</html>
